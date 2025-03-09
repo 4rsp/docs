@@ -504,7 +504,7 @@ and finally, thanks to the power of gdb, i got my shell by trying countless of t
 [make.fsop.great.again.webm](https://github.com/user-attachments/assets/1945ece9-3174-4904-9d51-1837e9e9e25d)
 
 
-here is the demo (*"compiler warnings are just suggestions" - Robwaz*) and the exploit script:
+here is the demo and the exploit script:
 
 ```c
 // gcc -g demo.c -o demo -no-pie
