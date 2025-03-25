@@ -107,11 +107,11 @@ keep this in your mind... will come back to it later
 
 this is the state of the registers in _dl_call_fini
 
-![rtld_glb](https://github.com/user-attachments/assets/63281dc3-0cf0-4d0a-9971-c6ccfbde69a7)
+![rtld_glb](https://github.com/4rsp/docs/blob/main/practice/exit.handlers/registers.png)
 
 and here you see the address that is passed to the function is..
 
-![call_to_fini](https://github.com/user-attachments/assets/2b956dcb-ed16-4252-a70b-931cdd6aec9d)
+![call_to_fini](https://github.com/4rsp/docs/blob/main/practice/exit.handlers/dl_call_fini_func.png)
 
 the link_map struct in the ldd
 
@@ -211,7 +211,7 @@ we are going to follow this: `(DL_CALL_DT_FINI (map, ((void *) map->l_addr + fin
 
 so let's get started 😜
 
-![dynamic](https://github.com/user-attachments/assets/b62e3bb2-a234-4cb3-bdcb-0e4cb2c5c5be)
+![dynamic](https://github.com/4rsp/docs/blob/main/practice/exit.handlers/dynamic.png)
 
 ```asm
     <+55>:    mov    r13,QWORD PTR [rax+0x8] 
@@ -221,7 +221,7 @@ rax holds the value at  `0x0000000000403e58` which is `tag 1a` = **DT_FINI_ARRAY
 
 and its ptr is (+8 offset) `0x0000000000403e00` (__do_global_dtors_aux_fini_array_entry) pointing to __do_global_dtors_aux
 
-![do_global](https://github.com/user-attachments/assets/a027bd24-fee4-482f-b5bb-1d00387b9146)
+![do_global](https://github.com/4rsp/docs/blob/main/practice/exit.handlers/pointer.png)
 
 ```asm
      <+59>:    mov    rax,QWORD PTR [r12+0x120]                                                                                                                        
@@ -334,7 +334,7 @@ p.interactive()
 ```
 > calling 0xdeadbeef
 
-[Screencast from 2025-01-25 22-56-29.webm](https://github.com/user-attachments/assets/1a3c5750-77b0-4e97-a782-1f6898ad2a2b)
+[poc1](https://github.com/4rsp/docs/blob/main/practice/exit.handlers/poc.webm)
 
 There are possibly other ways to exploit this without a buffer like in the demo
 
@@ -361,7 +361,7 @@ about dynamic linking
 
 looks like there are two `_start` one in the loader and one for the main which calls __libc_start_main
 
-![twostarts](https://github.com/user-attachments/assets/a4f1d6ff-a3b4-4fa5-ac39-532bac3aa655)
+![twostarts](https://github.com/4rsp/docs/blob/main/practice/exit.handlers/start.png)
 
 from the source [code](https://elixir.bootlin.com/glibc/glibc-2.39/source/sysdeps/aarch64/dl-start.S#L35)
 
@@ -413,7 +413,7 @@ this whole construction and destruction concept is huge and it needs to be studi
 
 exit() calls __run_exit_handlers...
 
-![runexit](https://github.com/user-attachments/assets/bcb4c3e5-6f93-4ab3-97e8-aeafb49d8d18)
+![runexit](https://github.com/4rsp/docs/blob/main/practice/exit.handlers/run.exit.handlers.png)
 
 > https://elixir.bootlin.com/glibc/glibc-2.39/source/stdlib/exit.c#L138
 
@@ -610,7 +610,7 @@ $4 = {
 
 as you can see here, the argument that will be passed to the mangled_ptr is 0
 
-![rax](https://github.com/user-attachments/assets/c3af6045-2cde-4438-85f3-a408f8281ef3)
+![rax](https://github.com/4rsp/docs/blob/main/practice/exit.handlers/arg.passed.png)
 
 now it zero-outs the flavor of our exit_function_list and moves the mangled_ptr to the rax
 
@@ -754,7 +754,7 @@ p.interactive()
 ```
 and live action!
 
-[Screencast from 2025-01-26 22-28-33.webm](https://github.com/user-attachments/assets/3a8f13e5-4160-4d2f-9ee5-52401742aefc)
+[poc2](https://github.com/4rsp/docs/blob/main/practice/exit.handlers/poc2.webm)
 
 ##### some helpful links
 
